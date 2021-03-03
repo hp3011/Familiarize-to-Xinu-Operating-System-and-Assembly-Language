@@ -1,0 +1,41 @@
+1. Assuming the XINU text begins at address 0x0, draw a rough diagram of XINU's memory layout with addresses derived from your experimental measurements. Include the information you uncovered from running your version of printsegaddress() and printprocstks().
+Ans:
+
+
+	+----------------+<----base = 0x00ffeff8
+	|	             |
+	|	             |<----pointer = 0x00ffef90
+	|  Stack         |
+	| (len = 4096)	 |
+	|	             |    
+	|                |           
+	+----------------+<----limit = 0x00ffdffc
+	|  Heap	         |
+	|	             |
+	+----------------+<----ebss = 0x0002c058
+	|  End(bss)      |
+	+----------------+<----edata = 0x0001e53d
+	|  Data(edata)   |
+	+----------------+<----etext = 0x0001923d
+	|  Text(etext)	 |
+	+----------------+<----Start = 0x00000000 
+
+
+2.What is the difference in stack top address before and after calling printtos()? Draw a diagram to illustrate what are the contents of the items pushed into the stack between these two time points.
+Ans:
+Difference in stack top address before(0x00ffeff4) and after(0x00ffefec) = 0x00000008 (8 bytes)
+
+
+            +-----------------+
+            |  Stack          | <--- Before = 0x00ffeff4
+            +-----------------+
+            |  Return         | 
+            +-----------------+
+            |  EBP            | <--- After = 0x00ffefec
+            +-----------------+
+            |  printtos()     | <-- Local variables
+ 		    +-----------------+
+
+3.In a stack frame, local variables are stored below the top of the stack. In task 3, does your result show all the local variables declared in your printtos function? If not, can you explain that? (hint: try to disable the compiler optimization by specifing -O0 in your Makefile)
+Ans:
+No, the result does not show all the local variables declared in the printtos function. Compilation Optimization is disabled by flag -O0 and results in reduced compilation time and make debugging produce the expected results.
